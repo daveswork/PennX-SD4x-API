@@ -71,13 +71,12 @@ app.use('/findAnimals', (req, res) =>{
 
 app.use('/animalsYoungerThan', (req, res) =>{
     var aAge = req.query.age;
-    console.log(req.query.keys);
     Animal.find({age:{$lt: aAge}}, (err, animal) =>{
         if(err){
             res.type('html').status(500);
             res.send('Error: '+err);
         }
-        else if(!animal||!aAge||animal.length<1){
+        else if(!animal||!aAge){
             res.type('html').status(200);
             res.send({});
         }
