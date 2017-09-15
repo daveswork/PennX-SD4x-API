@@ -44,7 +44,7 @@ app.use('/animalsYoungerThan', (req, res) =>{
             res.type('html').status(500);
             res.send('Error: '+err);
         }
-        else if(!animal){
+        else if(!animal||!aAge||animal.length<1){
             res.type('html').status(200);
             res.send({});
         }
