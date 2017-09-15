@@ -128,25 +128,42 @@ app.use('/calculatePrice', (req, res) =>{
           else {
             var bill = [];
             var total = 0;
-            console.log(toys);
+            var found = false;
+            var billIndex = 0;
             for(i = 0; i < idList.length; i++){
               for(j = 0 ; j < toys.length; j++){
                 if(idList[i] === toys[j].id && !isNaN(qtyList[i]) && qtyList[i] > 0){
-                  var item = {}
-                  item.item = toys[j].id;
-                  item.qty = qtyList[i];
-                  item.subtotal = qtyList[i] * toys[j].price;
-                  total += item.subtotal;
-                  bill.push(item);
+                  if(bill.length>0){
+                  for(k=0; k < bill.length; k++){
+                    if(bill[k].item == idList[i]){
+                      found = true;
+                      billIndex = k;
+                    }
+                  }
+                }
+                  if(found){
+                    bill[billIndex].subtotal += qtyList[i] * toys[j].price;
+                    bill[billIndex].qty = parseInt(bill[billIndex].qty) + parseInt(qtyList[i]);
+                    billIndex = 0;
+                    found = false;
+                  }else{
+                    var item = {}
+                    item.item = toys[j].id;
+                    item.qty = qtyList[i];
+                    item.subtotal = qtyList[i] * toys[j].price;
+                    bill.push(item);
+                  }
                 }
 
               }
 
             }
+            for(i=0; i < bill.length; i++){
+              total += bill[i].subtotal;
+            }
             var deliverable = {};
             deliverable.items = bill;
             deliverable.totalPrice = total;
-            console.log(bill, total);
             res.send(deliverable);
 
           }
