@@ -131,7 +131,7 @@ app.use('/calculatePrice', (req, res) =>{
             console.log(toys);
             for(i = 0; i < idList.length; i++){
               for(j = 0 ; j < toys.length; j++){
-                if(idList[i] === toys[j].id && !isNaN(qtyList[i])){
+                if(idList[i] === toys[j].id && !isNaN(qtyList[i]) && qtyList[i] > 0){
                   var item = {}
                   item.item = toys[j].id;
                   item.qty = qtyList[i];
