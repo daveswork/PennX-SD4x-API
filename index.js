@@ -28,17 +28,50 @@ app.use('/findToy', (req, res) =>{
 
 app.use('/findAnimals', (req, res) =>{
     
-    var aSpecies = req.query.species;
-    var aTrait = req.query.trait;
-    var gender = req.query.gender;
-    Animal.find({species:aSpecies});
+    var terms = {};
+    if(req.query.species)
+        terms.species = req.query.species;
+    if(req.query.gender)
+        terms.gender = req.query.gender;
+    if(req.query.trait)
+        terms.traits= req.query.trait;
+
+    if(Object.keys(terms).length == 0 ){
+        res.type('html').status(200);
+        res.send({});
+    }else{
+    Animal.find(terms, (err, animals) =>{
+        if(err){
+            res.type('html').status(500);
+            res.send('Error: '+err);
+        }
+        else if(animals.length==0){
+            res.type('html').status(200);
+            res.send({});
+        }
+        else{
+            var animalList = [];
+            for(i = 0; i < animals.length; i++){
+                var animal = {};
+                animal.name = animals[i].name;
+                animal.species = animals[i].species;
+                animal.breed = animals[i].breed;
+                animal.gender = animals[i].gender;
+                animal.age = animals[i].age;
+                animalList.push(animal);
+            }
+            res.send(animalList);        
+        
+        }
     
+    });
+    }
 
 });
 
 app.use('/animalsYoungerThan', (req, res) =>{
     var aAge = req.query.age;
-
+    console.log(req.query.keys);
     Animal.find({age:{$lt: aAge}}, (err, animal) =>{
         if(err){
             res.type('html').status(500);
@@ -52,7 +85,6 @@ app.use('/animalsYoungerThan', (req, res) =>{
 
             var aLen = animal.length;
             var aNames = []
-            console.log(aLen);
             for(var i = 0; i < aLen; i++){
                 aNames.push(animal[i].name);
             };
