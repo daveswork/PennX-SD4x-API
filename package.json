@@ -1,16 +1,23 @@
 {
-  "name": "hw6",
+  "name": "pennx-sd4x-api",
   "version": "1.0.0",
-  "description": "SD4x-hw6",
+  "description": "Week 4 HW6",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daveswork/PennX-SD4x-API.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daveswork/PennX-SD4x-API/issues"
+  },
+  "homepage": "https://github.com/daveswork/PennX-SD4x-API#readme",
   "dependencies": {
     "express": "^4.15.4",
     "mongoose": "^4.11.11"
-  },
-  "devDependencies": {}
+  }
 }
