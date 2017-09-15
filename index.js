@@ -89,7 +89,13 @@ app.use('/animalsYoungerThan', (req, res) =>{
                 aNames.push(animal[i].name);
             };
 
-            var animals = {count:aLen, names: aNames};
+            animals = {};
+            if(aLen<1){
+                animals.count = 0;
+            }else{
+                animals.count = aLen;
+                animals.names = aNames;
+            }
 
             res.send(animals);
         }
